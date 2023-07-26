@@ -33,6 +33,7 @@
             btnNew = new DevExpress.XtraEditors.SimpleButton();
             gridControl1 = new DevExpress.XtraGrid.GridControl();
             gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)groupControl1).BeginInit();
             groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridControl1).BeginInit();
@@ -41,6 +42,7 @@
             // 
             // groupControl1
             // 
+            groupControl1.Controls.Add(simpleButton1);
             groupControl1.Controls.Add(btnNew);
             groupControl1.Dock = DockStyle.Top;
             groupControl1.Location = new Point(0, 0);
@@ -77,6 +79,17 @@
             gridView1.Name = "gridView1";
             gridView1.OptionsView.ShowGroupPanel = false;
             // 
+            // simpleButton1
+            // 
+            simpleButton1.AllowFocus = false;
+            simpleButton1.ImageOptions.Image = (Image)resources.GetObject("simpleButton1.ImageOptions.Image");
+            simpleButton1.Location = new Point(813, 12);
+            simpleButton1.Name = "simpleButton1";
+            simpleButton1.Size = new Size(40, 40);
+            simpleButton1.TabIndex = 3;
+            simpleButton1.ToolTip = "Bilgi";
+            simpleButton1.Click += simpleButton1_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(6F, 13F);
@@ -101,5 +114,6 @@
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.SimpleButton btnNew;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
     }
 }

@@ -51,6 +51,7 @@ namespace Ahsel.Winform
                         gridView1.SetRowCellValue(rowHandle, "Date", payment.Date);
                         gridView1.SetRowCellValue(rowHandle, "Quantity", payment.Quantity);
                         gridView1.SetRowCellValue(rowHandle, "Price", payment.Price + " ₺");
+                        gridView1.SetRowCellValue(rowHandle, "Description", payment.Description);
                     }
                 }
 
@@ -66,6 +67,7 @@ namespace Ahsel.Winform
             dt.Columns.Add("Date", typeof(DateTime));
             dt.Columns.Add("Quantity", typeof(int));
             dt.Columns.Add("Price", typeof(string));
+            dt.Columns.Add("Description", typeof(string));
             gridControl1.DataSource = dt;
 
             gridView1.Columns["Id"].Visible = false;
@@ -81,6 +83,9 @@ namespace Ahsel.Winform
 
             gridView1.Columns["Price"].Caption = "Fiyat";
             gridView1.Columns["Price"].OptionsColumn.AllowEdit = false;
+
+            gridView1.Columns["Description"].Caption = "Açılama";
+            gridView1.Columns["Description"].OptionsColumn.AllowEdit = false;
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -93,6 +98,11 @@ namespace Ahsel.Winform
         private void FrmAddPayment_Closed(object? sender, FormClosedEventArgs e)
         {
             LoadPayments();
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

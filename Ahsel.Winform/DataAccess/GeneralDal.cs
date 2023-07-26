@@ -67,12 +67,14 @@ namespace Ahsel.Winform.DataAccess
                           ([ClientRef]
                           ,[Quantity]
                           ,[Price]
-                          ,[Date])
+                          ,[Date]
+                          ,[Description])
                     VALUES
                           (@ClientRef
                           ,@Quantity
                           ,@Price
-                          ,@Date)", create));
+                          ,@Date
+                          ,@Description)", create));
 
             return id;
         }

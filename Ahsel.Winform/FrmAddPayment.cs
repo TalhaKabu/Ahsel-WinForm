@@ -57,7 +57,7 @@ namespace Ahsel.Winform
 
             var price = GetPrice();
 
-            var reff = await GeneralDal.CreatePaymentAsync(new PaymentCreateDto { ClientRef = clientId, Quantity = quantity, Price = price, Date = date });
+            var reff = await GeneralDal.CreatePaymentAsync(new PaymentCreateDto { ClientRef = clientId, Quantity = quantity, Price = price, Date = date, Description = txtDescription.EditValue.ToString() });
 
             if (reff > 0)
                 this.Close();

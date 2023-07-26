@@ -12,5 +12,6 @@ namespace Ahsel.Winform.Entities
         public int Quantity { get; set; }
         public DateTime Date { get; set; }
         public int ClientRef { get; set; }
+        public string? Description { get; set; }
     }
 }
