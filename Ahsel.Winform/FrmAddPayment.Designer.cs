@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             directXFormContainerControl1 = new DevExpress.XtraEditors.DirectXFormContainerControl();
+            labelControl5 = new DevExpress.XtraEditors.LabelControl();
+            txtDescription = new DevExpress.XtraEditors.TextEdit();
             txtPrice = new DevExpress.XtraEditors.TextEdit();
             txtQuantity = new DevExpress.XtraEditors.TextEdit();
             btnSave = new DevExpress.XtraEditors.SimpleButton();
@@ -38,15 +40,13 @@
             dateDate = new DevExpress.XtraEditors.DateEdit();
             labelControl1 = new DevExpress.XtraEditors.LabelControl();
             cmbClient = new DevExpress.XtraEditors.ComboBoxEdit();
-            txtDescription = new DevExpress.XtraEditors.TextEdit();
-            labelControl5 = new DevExpress.XtraEditors.LabelControl();
             directXFormContainerControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)txtDescription.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtPrice.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtQuantity.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dateDate.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dateDate.Properties.CalendarTimeProperties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cmbClient.Properties).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)txtDescription.Properties).BeginInit();
             SuspendLayout();
             // 
             // directXFormContainerControl1
@@ -66,6 +66,22 @@
             directXFormContainerControl1.Name = "directXFormContainerControl1";
             directXFormContainerControl1.Size = new Size(218, 302);
             directXFormContainerControl1.TabIndex = 0;
+            directXFormContainerControl1.Click += directXFormContainerControl1_Click;
+            // 
+            // labelControl5
+            // 
+            labelControl5.Location = new Point(10, 210);
+            labelControl5.Name = "labelControl5";
+            labelControl5.Size = new Size(41, 13);
+            labelControl5.TabIndex = 13;
+            labelControl5.Text = "Açıklama";
+            // 
+            // txtDescription
+            // 
+            txtDescription.Location = new Point(10, 229);
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(200, 20);
+            txtDescription.TabIndex = 5;
             // 
             // txtPrice
             // 
@@ -95,7 +111,7 @@
             labelControl4.Location = new Point(10, 160);
             labelControl4.Name = "labelControl4";
             labelControl4.Size = new Size(24, 13);
-            labelControl4.TabIndex = 7;
+            labelControl4.TabIndex = 10;
             labelControl4.Text = "Fiyat";
             // 
             // labelControl3
@@ -103,7 +119,7 @@
             labelControl3.Location = new Point(10, 110);
             labelControl3.Name = "labelControl3";
             labelControl3.Size = new Size(29, 13);
-            labelControl3.TabIndex = 5;
+            labelControl3.TabIndex = 84;
             labelControl3.Text = "Miktar";
             // 
             // labelControl2
@@ -111,7 +127,7 @@
             labelControl2.Location = new Point(10, 60);
             labelControl2.Name = "labelControl2";
             labelControl2.Size = new Size(24, 13);
-            labelControl2.TabIndex = 4;
+            labelControl2.TabIndex = 95;
             labelControl2.Text = "Tarih";
             // 
             // dateDate
@@ -129,7 +145,7 @@
             labelControl1.Location = new Point(10, 10);
             labelControl1.Name = "labelControl1";
             labelControl1.Size = new Size(19, 13);
-            labelControl1.TabIndex = 2;
+            labelControl1.TabIndex = 96;
             labelControl1.Text = "Cari";
             // 
             // cmbClient
@@ -139,21 +155,6 @@
             cmbClient.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
             cmbClient.Size = new Size(200, 20);
             cmbClient.TabIndex = 1;
-            // 
-            // txtDescription
-            // 
-            txtDescription.Location = new Point(10, 229);
-            txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(200, 20);
-            txtDescription.TabIndex = 5;
-            // 
-            // labelControl5
-            // 
-            labelControl5.Location = new Point(10, 210);
-            labelControl5.Name = "labelControl5";
-            labelControl5.Size = new Size(41, 13);
-            labelControl5.TabIndex = 13;
-            labelControl5.Text = "Açıklama";
             // 
             // FrmAddPayment
             // 
@@ -168,12 +169,12 @@
             Load += FrmAddPayment_Load;
             directXFormContainerControl1.ResumeLayout(false);
             directXFormContainerControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)txtDescription.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)txtPrice.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)txtQuantity.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)dateDate.Properties.CalendarTimeProperties).EndInit();
             ((System.ComponentModel.ISupportInitialize)dateDate.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)cmbClient.Properties).EndInit();
-            ((System.ComponentModel.ISupportInitialize)txtDescription.Properties).EndInit();
             ResumeLayout(false);
         }
 

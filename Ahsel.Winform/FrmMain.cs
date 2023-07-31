@@ -1,5 +1,6 @@
 ﻿using Ahsel.Winform.DataAccess;
 using Ahsel.Winform.Entities;
+using DevExpress.CodeParser;
 using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,9 @@ namespace Ahsel.Winform
     {
         private readonly IGeneralDal GeneralDal;
         private List<PaymentDto> Payments;
+        private List<TotalPaymentDto> TotalPayments;
+        private float GeneralTotal = 0;
+        private float GeneralTotalExpanse = 0;
 
         public FrmMain(IGeneralDal generalDal)
         {
@@ -28,12 +33,72 @@ namespace Ahsel.Winform
         private async void FrmMain_Load(object sender, EventArgs e)
         {
             SetGridViewPattern();
-            LoadPayments();
+            await LoadPayments();
+
+            SetGridViewPattern2();
+            await LoadTotalPayments();
         }
 
-        private async void LoadPayments()
+        private async Task GetTotalPayments()
+        {
+            var clients = new List<string>();
+            foreach (var payment in Payments)
+            {
+                if (!payment.ClientName.Equals("gider", StringComparison.OrdinalIgnoreCase) && !payment.ClientName.Equals("satış", StringComparison.OrdinalIgnoreCase))
+                    if (!clients.Any(x => x == payment.ClientName))
+                        clients.Add(payment.ClientName);
+            }
+            clients.Sort();
+
+            TotalPayments = new List<TotalPaymentDto>();
+
+            foreach (var client in clients)
+            {
+                var x = Payments.FindAll(x => x.ClientName == client).Sum(x => x.Quantity * x.Price);
+                TotalPayments.Add(
+                    new TotalPaymentDto
+                    {
+                        ClientName = client,
+                        TotalPayment = x,
+                        RemainPayment = GeneralTotal / clients.Count - x
+                    });
+            }
+
+            txtGeneralTotal.EditValue = string.Format("{0:#,#.##}", GeneralTotal) + "₺";
+            txtGeneralTotalExpanse.EditValue = string.Format("{0:#,#.##}", GeneralTotalExpanse) + "₺";
+            txtBalance.EditValue = string.Format("{0:#,#.##}", (GeneralTotal - GeneralTotalExpanse)) + "₺";
+        }
+
+        private async Task LoadTotalPayments()
+        {
+            await GetTotalPayments();
+
+            if (!gridControl2.IsDisposed)
+            {
+                while (gridView2.DataRowCount != 0)
+                    gridView2.DeleteRow(gridView2.DataRowCount - 1);
+
+                foreach (var totalPayment in TotalPayments)
+                {
+                    gridView2.AddNewRow();
+                    int rowHandle = gridView2.GetRowHandle(gridView2.DataRowCount);
+                    if (gridView2.IsNewItemRow(rowHandle))
+                    {
+                        gridView2.SetRowCellValue(rowHandle, "ClientName", totalPayment.ClientName);
+                        gridView2.SetRowCellValue(rowHandle, "TotalPayment", string.Format("{0:#,#.##}", totalPayment.TotalPayment) + "₺");
+                        gridView2.SetRowCellValue(rowHandle, "RemainPayment", string.Format("{0:#,#.##}", totalPayment.RemainPayment) + "₺");
+                    }
+                }
+
+                gridView1.FocusedRowHandle = 0;
+            }
+        }
+
+        private async Task LoadPayments()
         {
             Payments = await GeneralDal.GetPaymentListAsync();
+            GeneralTotal = Payments.Where(x => !x.ClientName.Equals("gider", StringComparison.OrdinalIgnoreCase) && !x.ClientName.Equals("satış", StringComparison.OrdinalIgnoreCase)).Sum(x => x.Quantity * x.Price);
+            GeneralTotalExpanse = Payments.Where(x => x.ClientName.Equals("gider", StringComparison.OrdinalIgnoreCase) || x.ClientName.Equals("satış", StringComparison.OrdinalIgnoreCase)).Sum(x => x.Quantity * x.Price);
 
             if (!gridControl1.IsDisposed)
             {
@@ -50,7 +115,7 @@ namespace Ahsel.Winform
                         gridView1.SetRowCellValue(rowHandle, "ClientName", payment.ClientName);
                         gridView1.SetRowCellValue(rowHandle, "Date", payment.Date);
                         gridView1.SetRowCellValue(rowHandle, "Quantity", payment.Quantity);
-                        gridView1.SetRowCellValue(rowHandle, "Price", payment.Price + " ₺");
+                        gridView1.SetRowCellValue(rowHandle, "Price", string.Format("{0:#,#.##}", payment.Price) + " ₺");
                         gridView1.SetRowCellValue(rowHandle, "Description", payment.Description);
                     }
                 }
@@ -58,6 +123,25 @@ namespace Ahsel.Winform
                 gridView1.FocusedRowHandle = 0;
             }
         }
+
+        private void SetGridViewPattern2()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ClientName", typeof(string));
+            dt.Columns.Add("TotalPayment", typeof(string));
+            dt.Columns.Add("RemainPayment", typeof(string));
+            gridControl2.DataSource = dt;
+
+            gridView2.Columns["ClientName"].Caption = "Cari Adı";
+            gridView2.Columns["ClientName"].OptionsColumn.AllowEdit = false;
+
+            gridView2.Columns["TotalPayment"].Caption = "Toplam Ödeme";
+            gridView2.Columns["TotalPayment"].OptionsColumn.AllowEdit = false;
+
+            gridView2.Columns["RemainPayment"].Caption = "Ödemesi Gereken";
+            gridView2.Columns["RemainPayment"].OptionsColumn.AllowEdit = false;
+        }
+
 
         private void SetGridViewPattern()
         {
@@ -84,7 +168,7 @@ namespace Ahsel.Winform
             gridView1.Columns["Price"].Caption = "Fiyat";
             gridView1.Columns["Price"].OptionsColumn.AllowEdit = false;
 
-            gridView1.Columns["Description"].Caption = "Açılama";
+            gridView1.Columns["Description"].Caption = "Açıklama";
             gridView1.Columns["Description"].OptionsColumn.AllowEdit = false;
         }
 
@@ -95,9 +179,10 @@ namespace Ahsel.Winform
             frm.ShowDialog();
         }
 
-        private void FrmAddPayment_Closed(object? sender, FormClosedEventArgs e)
+        private async void FrmAddPayment_Closed(object? sender, FormClosedEventArgs e)
         {
-            LoadPayments();
+            await LoadPayments();
+            await LoadTotalPayments();
         }
 
         private void simpleButton1_Click(object sender, EventArgs e)
