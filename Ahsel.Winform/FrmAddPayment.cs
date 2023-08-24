@@ -20,15 +20,17 @@ namespace Ahsel.Winform
     {
         private readonly IGeneralDal GeneralDal;
         private List<ClientDto> Clients;
-        public FrmAddPayment()
+        int ProjectRef = -1;
+        public FrmAddPayment(int projectRef)
         {
             InitializeComponent();
+            ProjectRef = projectRef;
             GeneralDal = (IGeneralDal)Program.ServiceProvider.GetService(typeof(IGeneralDal));
         }
 
         private async void FrmAddPayment_Load(object sender, EventArgs e)
         {
-            Clients = await GeneralDal.GetClientListAsync();
+            Clients = await GeneralDal.GetClientListAsync(ProjectRef);
 
             FillCmbClient();
 
@@ -57,7 +59,7 @@ namespace Ahsel.Winform
 
             var price = GetPrice();
 
-            var reff = await GeneralDal.CreatePaymentAsync(new PaymentCreateDto { ClientRef = clientId, Quantity = quantity, Price = price, Date = date, Description = txtDescription.EditValue == null ? string.Empty : txtDescription.EditValue.ToString() });
+            var reff = await GeneralDal.CreatePaymentAsync(new PaymentCreateDto { ClientRef = clientId, Quantity = quantity, Price = price, Date = date, Description = txtDescription.EditValue == null ? string.Empty : txtDescription.EditValue.ToString(), ProjectRef = ProjectRef });
 
             if (reff > 0)
                 this.Close();
@@ -89,7 +91,7 @@ namespace Ahsel.Winform
             var selectedClient = Clients.Find(x => x.Name.Equals(clientName, StringComparison.OrdinalIgnoreCase));
 
             if (selectedClient == null)
-                return await GeneralDal.CreateClientAsync(clientName);
+                return await GeneralDal.CreateClientAsync(clientName, ProjectRef);
             else
                 return selectedClient.Id;
         }

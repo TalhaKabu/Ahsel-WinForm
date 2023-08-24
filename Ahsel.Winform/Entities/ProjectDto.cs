@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ahsel.Winform.Entities
 {
-    public class ClientDto
+    public class ProjectDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int ProjectRef { get; set; }
+        public string? Description { get; set; }
     }
 }

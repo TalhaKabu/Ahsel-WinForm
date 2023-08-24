@@ -3,6 +3,7 @@ using Ahsel.Winform.Entities;
 using DevExpress.CodeParser;
 using DevExpress.Utils;
 using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace Ahsel.Winform
     public partial class FrmMain : DevExpress.XtraEditors.XtraForm
     {
         private readonly IGeneralDal GeneralDal;
+        private List<ProjectDto> Projects;
         private List<PaymentDto> Payments;
         private List<TotalPaymentDto> TotalPayments;
         private float GeneralTotal = 0;
@@ -32,11 +34,42 @@ namespace Ahsel.Winform
 
         private async void FrmMain_Load(object sender, EventArgs e)
         {
+            await LoadApp();
+        }
+
+        private async Task LoadApp()
+        {
+            await LoadProjects();
+
             SetGridViewPattern();
             await LoadPayments();
 
             SetGridViewPattern2();
             await LoadTotalPayments();
+        }
+
+        private async Task LoadProjects()
+        {
+            Projects = await GeneralDal.GetProjectsAsync();
+
+            ComboBoxItemCollection coll = cmbProjects.Properties.Items;
+            coll.BeginUpdate();
+
+            try
+            {
+                foreach (var project in Projects)
+                {
+                    if (!coll.Contains(project.Name))
+                        coll.Add(project.Name);
+                }
+
+            }
+            finally
+            {
+                coll.EndUpdate();
+            }
+
+            cmbProjects.SelectedIndex = cmbProjects.SelectedIndex > 0 ? cmbProjects.SelectedIndex : 0;
         }
 
         private async Task GetTotalPayments()
@@ -96,7 +129,7 @@ namespace Ahsel.Winform
 
         private async Task LoadPayments()
         {
-            Payments = await GeneralDal.GetPaymentListAsync();
+            Payments = await GeneralDal.GetPaymentListAsync(Projects.Find(x => x.Name == cmbProjects.SelectedItem.ToString()).Id);
             GeneralTotal = Payments.Where(x => !x.ClientName.Equals("gider", StringComparison.OrdinalIgnoreCase) && !x.ClientName.Equals("satış", StringComparison.OrdinalIgnoreCase)).Sum(x => x.Quantity * x.Price);
             GeneralTotalExpanse = Payments.Where(x => x.ClientName.Equals("gider", StringComparison.OrdinalIgnoreCase) || x.ClientName.Equals("satış", StringComparison.OrdinalIgnoreCase)).Sum(x => x.Quantity * x.Price);
 
@@ -174,7 +207,7 @@ namespace Ahsel.Winform
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            FrmAddPayment frm = new FrmAddPayment();
+            FrmAddPayment frm = new FrmAddPayment(Projects.Find(x => x.Name == cmbProjects.SelectedItem.ToString()).Id);
             frm.FormClosed += new FormClosedEventHandler(FrmAddPayment_Closed);
             frm.ShowDialog();
         }
@@ -188,6 +221,11 @@ namespace Ahsel.Winform
         private void simpleButton1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private async void cmbProjects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            await LoadApp();
         }
     }
 }

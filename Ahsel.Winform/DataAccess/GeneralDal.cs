@@ -18,18 +18,19 @@ namespace Ahsel.Winform.DataAccess
             Configuration = configuration;
         }
 
-        public async Task<List<ClientDto>> GetClientListAsync()
+        public async Task<List<ClientDto>> GetClientListAsync(int projectRef)
         {
             await using var connection = Configuration.Create();
 
             var clients = (await connection.QueryAsync<ClientDto>($@"
 						SELECT *
-                        FROM Clients")).ToList();
+                        FROM Clients
+                        Where ProjectRef = @projectRef", new { projectRef = projectRef })).ToList();
 
             return clients;
         }
 
-        public async Task<List<PaymentDto>> GetPaymentListAsync()
+        public async Task<List<PaymentDto>> GetPaymentListAsync(int projectRef)
         {
             await using var connection = Configuration.Create();
 
@@ -39,20 +40,23 @@ namespace Ahsel.Winform.DataAccess
                             ,Cl.Name ClientName 
                         FROM Payments Py
                         LEFT JOIN Clients Cl WITH(NOLOCK) ON Cl.Id = Py.ClientRef
-                        ORDER BY Py.Date DESC")).ToList();
+                        WHERE Py.ProjectRef = @projectRef
+                        ORDER BY Py.Date DESC", new { projectRef = projectRef })).ToList();
 
             return payments;
         }
 
-        public async Task<int> CreateClientAsync(string name)
+        public async Task<int> CreateClientAsync(string name, int projectRef)
         {
             await using var connection = Configuration.Create();
 
             var id = (await connection.ExecuteScalarAsync<int>($@"
                     INSERT INTO Clients
-                          ([Name])
+                          ([Name]
+                           ,[ProjectRef])
                     VALUES
-                          ('{name}')
+                          ('{name}'
+                           ,'{projectRef}')
                     SELECT SCOPE_IDENTITY()"));
 
             return id;
@@ -68,15 +72,29 @@ namespace Ahsel.Winform.DataAccess
                           ,[Quantity]
                           ,[Price]
                           ,[Date]
-                          ,[Description])
+                          ,[Description]
+                          ,[ProjectRef])
                     VALUES
                           (@ClientRef
                           ,@Quantity
                           ,@Price
                           ,@Date
-                          ,@Description)", create));
+                          ,@Description
+                          ,@ProjectRef)", create));
 
             return id;
+        }
+
+        public async Task<List<ProjectDto>> GetProjectsAsync()
+        {
+            await using var connection = Configuration.Create();
+
+            var projects = (await connection.QueryAsync<ProjectDto>($@"
+						SELECT 
+                            *
+                        FROM Projects")).ToList();
+
+            return projects;
         }
     }
 }

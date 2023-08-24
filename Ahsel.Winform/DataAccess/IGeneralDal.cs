@@ -9,9 +9,10 @@ namespace Ahsel.Winform.DataAccess
 {
     public interface IGeneralDal
     {
-        Task<List<ClientDto>> GetClientListAsync();
-        Task<List<PaymentDto>> GetPaymentListAsync();
-        Task<int> CreateClientAsync(string name);
+        Task<List<ClientDto>> GetClientListAsync(int projectRef);
+        Task<List<PaymentDto>> GetPaymentListAsync(int projectRef);
+        Task<int> CreateClientAsync(string name, int projectRef);
         Task<int> CreatePaymentAsync(PaymentCreateDto create);
+        Task<List<ProjectDto>> GetProjectsAsync();
     }
 }

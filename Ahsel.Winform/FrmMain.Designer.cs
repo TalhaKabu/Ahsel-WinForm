@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            cmbProjects = new DevExpress.XtraEditors.ComboBoxEdit();
             labelControl3 = new DevExpress.XtraEditors.LabelControl();
             labelControl2 = new DevExpress.XtraEditors.LabelControl();
             labelControl1 = new DevExpress.XtraEditors.LabelControl();
@@ -45,6 +46,7 @@
             splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
             ((System.ComponentModel.ISupportInitialize)groupControl1).BeginInit();
             groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)cmbProjects.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtBalance.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtGeneralTotalExpanse.Properties).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtGeneralTotal.Properties).BeginInit();
@@ -56,6 +58,7 @@
             // 
             // groupControl1
             // 
+            groupControl1.Controls.Add(cmbProjects);
             groupControl1.Controls.Add(labelControl3);
             groupControl1.Controls.Add(labelControl2);
             groupControl1.Controls.Add(labelControl1);
@@ -71,6 +74,15 @@
             groupControl1.Size = new Size(904, 80);
             groupControl1.TabIndex = 0;
             groupControl1.Text = "groupControl1";
+            // 
+            // cmbProjects
+            // 
+            cmbProjects.Location = new Point(505, 32);
+            cmbProjects.Name = "cmbProjects";
+            cmbProjects.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
+            cmbProjects.Size = new Size(100, 20);
+            cmbProjects.TabIndex = 4;
+            cmbProjects.SelectedIndexChanged += cmbProjects_SelectedIndexChanged;
             // 
             // labelControl3
             // 
@@ -196,6 +208,7 @@
             ((System.ComponentModel.ISupportInitialize)groupControl1).EndInit();
             groupControl1.ResumeLayout(false);
             groupControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)cmbProjects.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)txtBalance.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)txtGeneralTotalExpanse.Properties).EndInit();
             ((System.ComponentModel.ISupportInitialize)txtGeneralTotal.Properties).EndInit();
@@ -222,5 +235,6 @@
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.LabelControl labelControl1;
         private DevExpress.XtraEditors.SplitterControl splitterControl1;
+        private DevExpress.XtraEditors.ComboBoxEdit cmbProjects;
     }
 }
