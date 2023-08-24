@@ -81,28 +81,28 @@
             txtDescription.Location = new Point(10, 229);
             txtDescription.Name = "txtDescription";
             txtDescription.Size = new Size(200, 20);
-            txtDescription.TabIndex = 5;
+            txtDescription.TabIndex = 4;
             // 
             // txtPrice
             // 
             txtPrice.Location = new Point(10, 180);
             txtPrice.Name = "txtPrice";
             txtPrice.Size = new Size(200, 20);
-            txtPrice.TabIndex = 4;
+            txtPrice.TabIndex = 3;
             // 
             // txtQuantity
             // 
             txtQuantity.Location = new Point(10, 130);
             txtQuantity.Name = "txtQuantity";
             txtQuantity.Size = new Size(200, 20);
-            txtQuantity.TabIndex = 3;
+            txtQuantity.TabIndex = 2;
             // 
             // btnSave
             // 
             btnSave.Location = new Point(10, 268);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(200, 23);
-            btnSave.TabIndex = 6;
+            btnSave.TabIndex = 5;
             btnSave.Text = "Kaydet";
             btnSave.Click += btnSave_Click;
             // 
@@ -138,7 +138,7 @@
             dateDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
             dateDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
             dateDate.Size = new Size(200, 20);
-            dateDate.TabIndex = 2;
+            dateDate.TabIndex = 1;
             // 
             // labelControl1
             // 
@@ -154,7 +154,7 @@
             cmbClient.Name = "cmbClient";
             cmbClient.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
             cmbClient.Size = new Size(200, 20);
-            cmbClient.TabIndex = 1;
+            cmbClient.TabIndex = 0;
             // 
             // FrmAddPayment
             // 
