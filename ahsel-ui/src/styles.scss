@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+.box {
+    float: left;
+    margin-right: 15px;
+  }
+  .box-right {
+    float: right;
+    margin-left: 15px;
+  }
+  .clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+  .p-datatable-header {
+    padding: 5px !important;
+    background-color: white !important;
+    border: 1px solid #eee !important;
+  }
+  
+  th,td{
+    font-size: small;
+  }
+  td{
+    padding: 5px !important;
+  }
+  
