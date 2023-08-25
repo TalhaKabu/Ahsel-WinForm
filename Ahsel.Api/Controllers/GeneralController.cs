@@ -1,5 +1,6 @@
 ﻿using Ahsel.DataAccess.General;
 using Ahsel.DataAccess.Models;
+using Ahsel.DataAccess.MyModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ahsel.Api.Controllers
@@ -43,6 +44,12 @@ namespace Ahsel.Api.Controllers
         public async Task<Payment> CreatePaymentAsync(Payment payment)
         {
             return await GeneralDal.CreatePaymentAsync(payment);
+        }
+
+        [HttpGet("get-grouped-payment-list")]
+        public async Task<List<ClientGroupDto>> GetGroupedPaymentAsync(int projectRef)
+        {
+            return await GeneralDal.GetGroupPaymentListAsync(projectRef);
         }
     }
 }

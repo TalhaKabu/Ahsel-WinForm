@@ -1,4 +1,5 @@
 ﻿using Ahsel.DataAccess.Models;
+using Ahsel.DataAccess.MyModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Ahsel.DataAccess.General
         Task<List<Project>> GetProjectListAsync();
         Task<List<Client>> GetClientListAsync(int projectRef);
         Task<List<PaymentDto>> GetPaymentListAsync(int projectRef);
+        Task<List<ClientGroupDto>> GetGroupPaymentListAsync(int projectRef);
     }
 }

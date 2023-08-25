@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Get, Post } from '../proxy/models';
 import { ProxyService } from '../proxy/proxy.service';
-import { ProjectDto } from './models';
+import { Client, ClientGroupDto, PaymentDto, Project } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +12,34 @@ export class GeneralService {
 
   constructor(private proxyService: ProxyService) {}
 
-  getProjectList(): Observable<ProjectDto[]> {
+  async getProjectList(): Promise<Observable<Project[]>> {
     var get: Get = {
       url: this.baseUrl + '/get-project-list',
     };
-    return this.proxyService.get(get);
+    return await this.proxyService.get(get);
   }
 
-  getClientList(projectRef: number): Observable<any> {
+  async getClientList(projectRef: number): Promise<Observable<Client[]>> {
     var get: Get = {
       url: this.baseUrl + '/get-client-list',
       params: { projectRef: projectRef },
     };
-    return this.proxyService.get(get);
+    return await this.proxyService.get(get);
+  }
+
+  async getPaymentList(projectRef: number): Promise<Observable<PaymentDto[]>> {
+    var get: Get = {
+      url: this.baseUrl + '/get-payment-list',
+      params: { projectRef: projectRef },
+    };
+    return await this.proxyService.get(get);
+  }
+
+  async getGroupedPaymentList(projectRef: number): Promise<Observable<ClientGroupDto[]>> {
+    var get: Get = {
+      url: this.baseUrl + '/get-grouped-payment-list',
+      params: { projectRef: projectRef },
+    };
+    return await this.proxyService.get(get);
   }
 }

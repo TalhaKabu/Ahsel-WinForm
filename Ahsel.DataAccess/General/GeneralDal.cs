@@ -1,4 +1,5 @@
 ﻿using Ahsel.DataAccess.Models;
+using Ahsel.DataAccess.MyModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -43,22 +44,56 @@ namespace Ahsel.DataAccess.General
             await using var db = new AhselContext();
 
             var payments = (from payment in db.Payments
-                      join client in db.Clients on payment.ClientRef equals client.Id
-                      where payment.ProjectRef == projectRef
-                      orderby payment.Date descending
-                      select new PaymentDto
-                      {
-                          Id = payment.Id,
-                          Price = payment.Price,
-                          ClientName = client.Name,
-                          ClientRef = payment.ClientRef,
-                          Quantity = payment.Quantity,
-                          Date = payment.Date,
-                          Description = payment.Description,
-                          ProjectRef = payment.ProjectRef
-                      }).ToList();
+                            join client in db.Clients on payment.ClientRef equals client.Id
+                            where payment.ProjectRef == projectRef
+                            orderby payment.Date descending
+                            select new PaymentDto
+                            {
+                                Id = payment.Id,
+                                Price = payment.Price,
+                                ClientName = client.Name,
+                                ClientRef = payment.ClientRef,
+                                Quantity = payment.Quantity,
+                                Date = payment.Date,
+                                Description = payment.Description,
+                                ProjectRef = payment.ProjectRef
+                            }).ToList();
 
             return payments;
+        }
+
+        public async Task<List<ClientGroupDto>> GetGroupPaymentListAsync(int projectRef)
+        {
+            await using var db = new AhselContext();
+
+            var groupedPayments = (from client in db.Clients
+                                   where client.ProjectRef == projectRef
+                                   select new ClientGroupDto
+                                   {
+                                       Id = client.Id,
+                                       Name = client.Name,
+                                       ProjectRef = client.ProjectRef,
+                                       Total = 0,
+                                       PaymentList = (from payment in db.Payments
+                                                      where payment.ClientRef == client.Id && payment.ProjectRef == projectRef
+                                                      select new Payment
+                                                      {
+                                                          Id = payment.Id,
+                                                          ClientRef = payment.ClientRef,
+                                                          Date = payment.Date,
+                                                          ProjectRef = payment.ProjectRef,
+                                                          Description = payment.Description,
+                                                          Price = payment.Price,
+                                                          Quantity = payment.Quantity
+                                                      }).ToList()
+                                   }).ToList();
+
+            foreach (var item in groupedPayments)
+            {
+                item.Total = item.PaymentList.Sum(x => x.Quantity * x.Price);
+            }
+
+            return groupedPayments;
         }
     }
 }
