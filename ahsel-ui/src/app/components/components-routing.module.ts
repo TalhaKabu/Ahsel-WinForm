@@ -4,7 +4,7 @@ import { GeneralComponent } from './general/general.component';
 
 const routes: Routes = [
   {
-    path: 'general',
+    path: '',
     component: GeneralComponent,
   },
 ];

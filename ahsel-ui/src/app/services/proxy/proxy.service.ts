@@ -24,8 +24,6 @@ export class ProxyService {
   }
 
   public get(get: Get): Observable<any> {
-    console.log(environment.apiUrl);
-    console.log(get.url);
     return this.http.get<any>(`${environment.apiUrl}/api/${get.url}`, {
       headers: {
         'Content-Type': 'application/json',
