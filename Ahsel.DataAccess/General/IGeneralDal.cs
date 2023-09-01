@@ -12,6 +12,7 @@ namespace Ahsel.DataAccess.General
     {
         Task<Client> CreateClientAsync(Client client);
         Task<Payment> CreatePaymentAsync(Payment payment);
+        Task<List<Description>> GetDescriptionListAsync(int projectRef);
         Task<List<Project>> GetProjectListAsync();
         Task<List<Client>> GetClientListAsync(int projectRef);
         Task<List<PaymentDto>> GetPaymentListAsync(int projectRef);

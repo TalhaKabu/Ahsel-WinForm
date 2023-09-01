@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ahsel.DataAccess.Migrations
 {
     [DbContext(typeof(AhselContext))]
-    [Migration("20230824173044_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230901082023_firstMigration")]
+    partial class firstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,26 @@ namespace Ahsel.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clients", "dbo");
+                });
+
+            modelBuilder.Entity("Ahsel.DataAccess.Models.Description", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProjectRef")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Descriptions", "dbo");
                 });
 
             modelBuilder.Entity("Ahsel.DataAccess.Models.Payment", b =>

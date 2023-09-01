@@ -22,6 +22,14 @@ namespace Ahsel.DataAccess.General
             await db.SaveChangesAsync();
             return py;
         }
+        public async Task<List<Description>> GetDescriptionListAsync(int projectRef)
+        {
+            await using var db = new AhselContext();
+
+            return await db.Descriptions
+                .Where(x => x.ProjectRef == projectRef)
+                .ToListAsync();
+        }
 
         public async Task<List<Project>> GetProjectListAsync()
         {

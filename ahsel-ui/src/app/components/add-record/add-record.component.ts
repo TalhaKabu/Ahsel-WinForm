@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Project } from 'src/app/services/general/models';
 
 @Component({
@@ -9,8 +10,13 @@ import { Project } from 'src/app/services/general/models';
 export class AddRecordComponent {
   projectList: Project[] = [];
   projectRef: number = -1;
+  date: Date = new Date();
+  quantity: number = 1;
+  price: number = 0;
+  description: string = '';
+  descriptionRef: number = 1;
 
-  constructor() {
-
+  constructor(private config: DynamicDialogConfig) {
+    this.projectList = this.config.data.projectList;
   }
 }

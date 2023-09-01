@@ -7,6 +7,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { GeneralComponent } from './general/general.component';
 import { AddRecordComponent } from './add-record/add-record.component';
@@ -22,6 +25,9 @@ import { AddRecordComponent } from './add-record/add-record.component';
     DropdownModule,
     DynamicDialogModule,
     ButtonModule,
+    CalendarModule,
+    InputNumberModule,
+    InputTextModule,
   ],
   exports: [],
   providers: [DialogService],

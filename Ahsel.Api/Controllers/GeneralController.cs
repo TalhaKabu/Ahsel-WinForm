@@ -22,6 +22,12 @@ namespace Ahsel.Api.Controllers
             return await GeneralDal.GetClientListAsync(projectRef);
         }
 
+        [HttpGet("get-description-list")]
+        public async Task<List<Client>> GetDescriptionListAsync(int projectRef)
+        {
+            return await GeneralDal.GetDescriptionListAsync(projectRef);
+        }
+
         [HttpGet("get-payment-list")]
         public async Task<List<PaymentDto>> GetPaymentListAsync(int projectRef)
         {

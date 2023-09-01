@@ -79,12 +79,15 @@ export class GeneralComponent implements OnInit {
   }
 
   addOnClick() {
+    console.log(this.projectList);
     this.ref = this.dialogService.open(AddRecordComponent, {
-      header: 'Select a Product',
+      header: 'Kayıt Ekle',
       data: {
         projectList: this.projectList,
         clientList: this.clientList,
       },
+      width: '35%',
+      baseZIndex: 10000,
     });
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Get, Post } from '../proxy/models';
 import { ProxyService } from '../proxy/proxy.service';
-import { Client, ClientGroupDto, PaymentDto, Project } from './models';
+import { Client, ClientGroupDto, Description, PaymentDto, Project } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,14 @@ export class GeneralService {
   async getClientList(projectRef: number): Promise<Observable<Client[]>> {
     var get: Get = {
       url: this.baseUrl + '/get-client-list',
+      params: { projectRef: projectRef },
+    };
+    return await this.proxyService.get(get);
+  }
+
+  async getDescriptionList(projectRef: number): Promise<Observable<Description[]>> {
+    var get: Get = {
+      url: this.baseUrl + '/get-description-list',
       params: { projectRef: projectRef },
     };
     return await this.proxyService.get(get);

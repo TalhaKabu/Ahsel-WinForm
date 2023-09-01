@@ -1,15 +1,67 @@
 <div class="flex">
   <div class="row">
-    <div class="col">
-      <label for="projects"></label>
-      <p-dropdown
-        #projects
-        [options]="projectList"
-        [(ngModel)]="projectRef"
-        optionLabel="name"
-        optionValue="id"
-        appendTo="body"
-      ></p-dropdown>
-    </div>
+    <label for="projects">Projeler</label>
+    <p-dropdown
+      #projects
+      [options]="projectList"
+      [(ngModel)]="projectRef"
+      [style]="{ width: '100%' }"
+      optionLabel="name"
+      optionValue="id"
+      appendTo="body"
+    ></p-dropdown>
+  </div>
+  <div class="row">
+    <label for="descriptionInput">Açıklama</label>
+    <p-dropdown
+      #descriptionInput
+      [options]="projectList"
+      [(ngModel)]="descriptionRef"
+      [style]="{ width: '100%' }"
+      optionLabel="name"
+      optionValue="id"
+      [editable]="true"
+      appendTo="body"
+    ></p-dropdown>
+  </div>
+  <div class="row">
+    <label for="calendar">Tarih</label>
+    <p-calendar
+      #calendar
+      [(ngModel)]="date"
+      class="date"
+      dateFormat="dd/mm/yy"
+      [style]="{ width: '100%' }"
+      [inline]="false"
+      appendTo="body"
+    ></p-calendar>
+  </div>
+  <div class="row">
+    <label for="quantityInput">Miktar</label>
+    <p-inputNumber
+      #quantityInput
+      [(ngModel)]="quantity"
+      inputId="minmax"
+      mode="decimal"
+      [min]="0"
+      [max]="100"
+      [style]="{ width: '100%' }"
+    >
+    </p-inputNumber>
+  </div>
+  <div class="row">
+    <label for="priceInput">Fiyat</label>
+    <p-inputNumber
+      #priceInput
+      [(ngModel)]="price"
+      inputId="minmax"
+      mode="decimal"
+      [min]="0"
+      [style]="{ width: '100%' }"
+    >
+    </p-inputNumber>
+  </div>
+  <div class="row" style="margin-top: 20px !important;">
+      <button pButton pRipple label="Kaydet"></button>
   </div>
 </div>

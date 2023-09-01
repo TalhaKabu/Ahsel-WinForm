@@ -10,6 +10,13 @@ export interface Client {
   projectRef: number;
 }
 
+export interface Description {
+  id: number;
+  name: string;
+  projectRef: number;
+}
+
+
 export interface Payment {
   id: number;
   clientRef: number;
