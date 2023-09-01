@@ -88,9 +88,26 @@ namespace Ahsel.DataAccess.General
                                                       }).ToList()
                                    }).ToList();
 
+            float generalTotal = 0;
+            int clientCount = 0;
+            float highestClientTotal = 0;
             foreach (var item in groupedPayments)
             {
                 item.Total = item.PaymentList.Sum(x => x.Quantity * x.Price);
+                if (!item.Name.Equals("Gider", StringComparison.OrdinalIgnoreCase) && !item.Name.Equals("Satış", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (item.Total >= highestClientTotal)
+                        highestClientTotal = item.Total;
+
+                    generalTotal += item.Total;
+                    clientCount++;
+                }
+            }
+
+            foreach (var item in groupedPayments)
+            {
+                if (!item.Name.Equals("Gider", StringComparison.OrdinalIgnoreCase) && !item.Name.Equals("Satış", StringComparison.OrdinalIgnoreCase))
+                    item.RemainPayment = highestClientTotal - item.Total;
             }
 
             return groupedPayments;

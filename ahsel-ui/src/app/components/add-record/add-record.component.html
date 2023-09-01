@@ -1,0 +1,15 @@
+<div class="flex">
+  <div class="row">
+    <div class="col">
+      <label for="projects"></label>
+      <p-dropdown
+        #projects
+        [options]="projectList"
+        [(ngModel)]="projectRef"
+        optionLabel="name"
+        optionValue="id"
+        appendTo="body"
+      ></p-dropdown>
+    </div>
+  </div>
+</div>

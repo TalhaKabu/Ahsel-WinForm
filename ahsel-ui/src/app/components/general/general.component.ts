@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { GeneralService } from 'src/app/services/general/general.service';
 import {
   Client,
@@ -6,6 +7,7 @@ import {
   PaymentDto,
   Project,
 } from 'src/app/services/general/models';
+import { AddRecordComponent } from '../add-record/add-record.component';
 
 @Component({
   selector: 'app-general',
@@ -19,13 +21,16 @@ export class GeneralComponent implements OnInit {
   clientList: Client[] = [];
   paymentList: PaymentDto[] = [];
   groupedPaymentList: ClientGroupDto[] = [];
+  totalIncome: number = 0;
+  totalExpense: number = 0;
+  ref: DynamicDialogRef | undefined;
   //#endregion
 
   //#region Utils
   getProjectList = async () => {
     (await this.generalService.getProjectList()).subscribe((res) => {
       this.projectList = res;
-      this.projectRef = this.projectList[0].id;
+      if (this.projectRef == -1) this.projectRef = this.projectList[0].id;
       this.getClientList();
     });
   };
@@ -53,17 +58,38 @@ export class GeneralComponent implements OnInit {
       await this.generalService.getGroupedPaymentList(this.projectRef)
     ).subscribe((res) => {
       this.groupedPaymentList = res;
+      this.groupedPaymentList.forEach((x) => {
+        if (x.name == 'Gider') this.totalExpense += x.total;
+        else this.totalIncome += x.total;
+      });
     });
   };
   //#endregion
 
   //#region Ctor
-  constructor(private generalService: GeneralService) {}
+  constructor(
+    private generalService: GeneralService,
+    public dialogService: DialogService
+  ) {}
   //#endregion
 
   //#region Methods
   async ngOnInit(): Promise<void> {
     await this.getProjectList();
+  }
+
+  addOnClick() {
+    this.ref = this.dialogService.open(AddRecordComponent, {
+      header: 'Select a Product',
+      data: {
+        projectList: this.projectList,
+        clientList: this.clientList,
+      },
+    });
+  }
+
+  projectOnChange(): void {
+    this.ngOnInit();
   }
   //#endregion
 }

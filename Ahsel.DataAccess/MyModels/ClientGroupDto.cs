@@ -13,6 +13,7 @@ namespace Ahsel.DataAccess.MyModels
         public string Name { get; set; }
         public int ProjectRef { get; set; }
         public float Total { get; set; }
+        public float? RemainPayment { get; set; }
         public List<Payment> PaymentList { get; set; }
     }
 }

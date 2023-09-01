@@ -29,5 +29,6 @@ export interface ClientGroupDto {
   name: string;
   projectRef: number;
   total: number;
+  remainPayment?: number;
   paymentList: Payment[];
 }
