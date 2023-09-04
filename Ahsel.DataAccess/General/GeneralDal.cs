@@ -26,9 +26,16 @@ namespace Ahsel.DataAccess.General
         {
             await using var db = new AhselContext();
 
-            return await db.Descriptions
-                .Where(x => x.ProjectRef == projectRef)
-                .ToListAsync();
+            var dc = (from description in db.Descriptions
+                      where description.ProjectRef == projectRef
+                      select new Description
+                      {
+                          Id = description.Id,
+                          ProjectRef = description.ProjectRef,
+                          Name = description.Name
+                      }).ToList().DistinctBy(x => new { x.Name, x.ProjectRef }).ToList();
+
+            return dc;
         }
 
         public async Task<List<Project>> GetProjectListAsync()

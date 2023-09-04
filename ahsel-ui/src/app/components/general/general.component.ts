@@ -4,6 +4,7 @@ import { GeneralService } from 'src/app/services/general/general.service';
 import {
   Client,
   ClientGroupDto,
+  Description,
   PaymentDto,
   Project,
 } from 'src/app/services/general/models';
@@ -19,6 +20,7 @@ export class GeneralComponent implements OnInit {
   projectRef: number = -1;
   projectList: Project[] = [];
   clientList: Client[] = [];
+  descriptionList: Description[] = [];
   paymentList: PaymentDto[] = [];
   groupedPaymentList: ClientGroupDto[] = [];
   totalIncome: number = 0;
@@ -32,6 +34,7 @@ export class GeneralComponent implements OnInit {
       this.projectList = res;
       if (this.projectRef == -1) this.projectRef = this.projectList[0].id;
       this.getClientList();
+      this.getDescriptionList();
     });
   };
 
@@ -43,6 +46,15 @@ export class GeneralComponent implements OnInit {
       }
     );
   };
+
+  getDescriptionList = async () => {
+    (await this.generalService.getDescriptionList(this.projectRef)).subscribe(
+      (res) => {
+        this.descriptionList = res;
+      }
+    );
+  };
+
 
   getPaymentList = async () => {
     (await this.generalService.getPaymentList(this.projectRef)).subscribe(
@@ -83,8 +95,10 @@ export class GeneralComponent implements OnInit {
     this.ref = this.dialogService.open(AddRecordComponent, {
       header: 'Kayıt Ekle',
       data: {
+        projectRef: this.projectRef,
         projectList: this.projectList,
         clientList: this.clientList,
+        descriptionList: this.descriptionList,
       },
       width: '35%',
       baseZIndex: 10000,

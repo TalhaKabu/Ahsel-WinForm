@@ -1,13 +1,24 @@
 <div class="flex">
   <div class="row">
-    <label for="projects">Projeler</label>
+    <label for="projects">Proje</label>
+    <input
+      pInputText
+      type="text"
+      class="p-inputtext-sm"
+      readonly
+      [(ngModel)]="projectName"
+    />
+  </div>
+  <div class="row">
+    <label for="clientInput">Cariler</label>
     <p-dropdown
-      #projects
-      [options]="projectList"
-      [(ngModel)]="projectRef"
+      #clientInput
+      [options]="clientList"
+      [(ngModel)]="clientRef"
       [style]="{ width: '100%' }"
       optionLabel="name"
       optionValue="id"
+      [editable]="true"
       appendTo="body"
     ></p-dropdown>
   </div>
@@ -15,11 +26,11 @@
     <label for="descriptionInput">Açıklama</label>
     <p-dropdown
       #descriptionInput
-      [options]="projectList"
-      [(ngModel)]="descriptionRef"
+      [options]="descriptionList"
+      [(ngModel)]="description"
       [style]="{ width: '100%' }"
       optionLabel="name"
-      optionValue="id"
+      optionValue="name"
       [editable]="true"
       appendTo="body"
     ></p-dropdown>
@@ -61,7 +72,7 @@
     >
     </p-inputNumber>
   </div>
-  <div class="row" style="margin-top: 20px !important;">
-      <button pButton pRipple label="Kaydet"></button>
+  <div class="row" style="margin-top: 20px !important">
+    <button pButton pRipple label="Kaydet" (click)="onSaveClick()"></button>
   </div>
 </div>

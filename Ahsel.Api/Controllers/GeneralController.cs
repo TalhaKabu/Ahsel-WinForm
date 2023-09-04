@@ -23,7 +23,7 @@ namespace Ahsel.Api.Controllers
         }
 
         [HttpGet("get-description-list")]
-        public async Task<List<Client>> GetDescriptionListAsync(int projectRef)
+        public async Task<List<Description>> GetDescriptionListAsync(int projectRef)
         {
             return await GeneralDal.GetDescriptionListAsync(projectRef);
         }
