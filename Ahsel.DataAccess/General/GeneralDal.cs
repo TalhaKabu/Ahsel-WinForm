@@ -22,6 +22,23 @@ namespace Ahsel.DataAccess.General
             await db.SaveChangesAsync();
             return py;
         }
+
+        public async Task<Payment> UpdatePaymentAsync(Payment payment)
+        {
+            await using var db = new AhselContext();
+            var py = db.Update(payment).Entity;
+            db.SaveChanges();
+            return py;
+        }
+
+        public async Task<Description> CreateDescriptionAsync(Description description)
+        {
+            await using var db = new AhselContext();
+            var ds = (await db.AddAsync(description)).Entity;
+            await db.SaveChangesAsync();
+            return ds;
+        }
+
         public async Task<List<Description>> GetDescriptionListAsync(int projectRef)
         {
             await using var db = new AhselContext();
@@ -91,6 +108,7 @@ namespace Ahsel.DataAccess.General
                                        Total = 0,
                                        PaymentList = (from payment in db.Payments
                                                       where payment.ClientRef == client.Id && payment.ProjectRef == projectRef
+                                                      orderby payment.Date descending
                                                       select new Payment
                                                       {
                                                           Id = payment.Id,
